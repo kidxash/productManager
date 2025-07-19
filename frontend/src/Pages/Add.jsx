@@ -23,23 +23,77 @@ function Add () {
                     left: 0,
                     width: "100vw",
                     height: "100vh",
-                    background: "rgba(0,0,0,0.7)", // semi-transparent black
+                    background: "rgba(0,0,0,0.5)", // semi-transparent black
                     zIndex: -1
                 }}
             />
            
-<div style={{textAlign: "center",ma}}>
+<div style={{
+justifyItems: "center",
+marginTop: "10%",
+backgroundColor: "black",
+borderStyle: "solid",
+borderWidth: "5px",
+borderColor: "lightgrey",
+height:"400px",
+width: "500px",
+marginLeft:"35%",
+borderRadius: "20px"
+
+
+}}>
         <h1 style={{
                     color: "white",
-                    marginTop: "200px",
-                    fontSize: "60px",
-                    fontWeight: 70,
+                    marginTop: "50px",
+                    fontSize: "25px",
                     fontFamily: "Montserrat, sans-serif",
-                    marginLeft: "75px",
-                    margin: 0 
                 }}
 >Add Product for Management </h1>
+<div style={{
+
+}}>
+    <input type="file" placeholder= "Insert product as .txt here" style={{
+        marginTop: " 50px",
+        width: "100px"
+       
+
+    }}></input>
 </div>
+
+
+
+
+
+
+<div>
+    <input type="text" placeholder="Title" style ={{
+         marginTop: " 45px",
+         width: "300px",
+         height: "25px",
+         borderRadius: "20px",
+         color: "lightgray"
+    }}></input>
+
+</div>
+
+
+
+
+<div>
+    <input type="submit" style={{
+        marginTop:" 65px",
+        marginRight: "20px",
+        width: "150px",
+        borderRadius: "10px"
+    }} />
+</div>
+
+
+</div>
+
+
+
+
         </>
     )
 
