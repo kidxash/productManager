@@ -9,6 +9,15 @@ dotenv.config();
 const app = express();
 
 
+app.post("/", async  (req res) => {
+    const body = req.body;
+    
+
+
+
+})
+
+
 app.listen(5000, () => {
     connectDB();
     console.log("Server started")
