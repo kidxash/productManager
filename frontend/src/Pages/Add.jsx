@@ -1,7 +1,75 @@
+import useAPI from "../API/API"
+import { useState } from "react";
+
 function Add () {
+     const { createProduct } = useAPI();
+    
+    const [title, setTitle] = useState('');
+    const [fileContent, setFileContent] = useState('');
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+
+    const handleFileChange = (event) => {
+        const file = event.target.files[0];
+        setSelectedFile(file);
+        
+        if (file && file.type === 'text/plain') {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                setFileContent(e.target.result);
+            };
+            reader.onerror = (e) => {
+                console.error('Error reading file:', e);
+                alert('Error reading file. Please try again.');
+            };
+            reader.readAsText(file);
+        } else if (file) {
+            alert('Please select a .txt file');
+            setSelectedFile(null);
+            setFileContent('');
+        }
+    };
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        
+        if (!title.trim()) {
+            alert('Please enter a title');
+            return;
+        }
+        
+        if (!fileContent.trim()) {
+            alert('Please select a valid .txt file');
+            return;
+        }
+
+        setIsLoading(true);
+        
+        try {
+            const productDatas = {
+                Title: title.trim(),
+                productData: fileContent,
+            };
+            
+            await createProduct(productDatas);
+            
+            setTitle('');
+            setFileContent('');
+            setSelectedFile(null);
+            document.querySelector('input[type="file"]').value = '';
+            
+            alert('Product added successfully!');
+        } catch (error) {
+            console.error('Error creating product:', error);
+            alert('Error creating product. Please try again.');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     return(
         <>
-           {/* Background Image */}
+           
             <div
                 style={{
                     position: "fixed",
@@ -15,7 +83,7 @@ function Add () {
                     zIndex: -2
                 }}
             />
-            {/* Translucent Overlay */}
+           
             <div
                 style={{
                     position: "fixed",
@@ -27,75 +95,83 @@ function Add () {
                     zIndex: -1
                 }}
             />
-           
-<div style={{
-justifyItems: "center",
-marginTop: "10%",
-backgroundColor: "black",
-borderStyle: "solid",
-borderWidth: "5px",
-borderColor: "lightgrey",
-height:"400px",
-width: "500px",
-marginLeft:"35%",
-borderRadius: "20px"
-
-
-}}>
-        <h1 style={{
-                    color: "white",
-                    marginTop: "50px",
-                    fontSize: "25px",
-                    fontFamily: "Montserrat, sans-serif",
-                }}
->Add Product for Management </h1>
-<div style={{
-
-}}>
-    <input type="file" placeholder= "Insert product as .txt here" style={{
-        marginTop: " 50px",
-        width: "100px"
-       
-
-    }}></input>
-</div>
-
-
-
-
-
-
-<div>
-    <input type="text" placeholder="Title" style ={{
-         marginTop: " 45px",
-         width: "300px",
-         height: "25px",
-         borderRadius: "20px",
-         color: "lightgray"
-    }}></input>
-
-</div>
-
-
-
-
-<div>
-    <input type="submit" style={{
-        marginTop:" 65px",
-        marginRight: "20px",
-        width: "150px",
-        borderRadius: "10px"
-    }} />
-</div>
-
-
-</div>
-
-
-
-
+             <form onSubmit={handleSubmit}>
+  <div
+    style={{
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      height: "100vh",
+      position: "relative",
+      zIndex: 1,
+    }}
+  >
+    <div
+      style={{
+        backgroundColor: "black",
+        borderStyle: "solid",
+        borderWidth: "5px",
+        borderColor: "lightgrey",
+        height: "400px",
+        width: "500px",
+        borderRadius: "20px",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <h1
+        style={{
+          color: "white",
+          marginBottom: "30px",
+          fontSize: "25px",
+          fontFamily: "Montserrat, sans-serif",
+        }}
+      >
+        Add Product for Management
+      </h1>
+      <div>
+        <input
+          type="file"
+          placeholder="Insert product as .txt here"
+          accept=".txt"
+          onChange={handleFileChange}
+          style={{
+            marginBottom: "30px",
+            width: "100px",
+          }}
+        />
+      </div>
+      <div>
+        <input
+          type="text"
+          placeholder="Title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          style={{
+            marginBottom: "30px",
+            width: "300px",
+            height: "25px",
+            borderRadius: "20px",
+            color: "lightgray",
+          }}
+        />
+      </div>
+      <div>
+        <input
+          type="submit"
+          style={{
+            width: "150px",
+            borderRadius: "10px",
+          }}
+        />
+      </div>
+    </div>
+  </div>
+</form>
         </>
-    )
+    );
 
 }
-export default Add
+export default Add;

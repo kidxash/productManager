@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import React, { useEffect } from "react";
 
 function Navbar() {
-  // Remove body margin when Navbar mounts
   useEffect(() => {
     document.body.style.margin = "0";
   }, [])
